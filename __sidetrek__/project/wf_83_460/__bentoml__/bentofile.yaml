@@ -1,0 +1,11 @@
+service: "project.wf_83_460.__bentoml__.service:svc"  # services.service is from services/service.py and svc is the name of the variable bentoml.Service() is assigned to
+labels:
+  organization: 626e62cb-cf4a-45f6-92fc-c2279a621fce
+  project: 43516af4-f055-4c63-b730-badf3c325afb
+  domain: development
+include:
+- "*.py"  # A pattern for matching which files to include in the bento
+exclude:
+- "bentoml/"  # Required to prevent the build from including previous versions
+python:
+  requirements_txt: "./requirements.txt"

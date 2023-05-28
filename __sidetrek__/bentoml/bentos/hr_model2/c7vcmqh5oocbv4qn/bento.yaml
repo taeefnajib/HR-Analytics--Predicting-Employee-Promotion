@@ -1,0 +1,48 @@
+service: project.wf_83_460.__bentoml__.service:svc
+name: hr_model2
+version: c7vcmqh5oocbv4qn
+bentoml_version: 1.0.15
+creation_time: '2023-05-28T16:17:08.538418+00:00'
+labels:
+  organization: 626e62cb-cf4a-45f6-92fc-c2279a621fce
+  project: 43516af4-f055-4c63-b730-badf3c325afb
+  domain: development
+models:
+- tag: hr_model2:6pya6dh5oketd4qn
+  module: bentoml.sklearn
+  creation_time: '2023-05-28T16:16:07.905528+00:00'
+runners:
+- name: hr_model2
+  runnable_type: SklearnRunnable
+  models:
+  - hr_model2:6pya6dh5oketd4qn
+  resource_config: null
+apis:
+- name: classify
+  input_type: NumpyNdarray
+  output_type: NumpyNdarray
+docker:
+  distro: debian
+  python_version: '3.10'
+  cuda_version: null
+  env: null
+  system_packages: null
+  setup_script: null
+  base_image: null
+  dockerfile_template: null
+python:
+  requirements_txt: ./requirements.txt
+  packages: null
+  lock_packages: null
+  index_url: null
+  no_index: null
+  trusted_host: null
+  find_links: null
+  extra_index_url: null
+  pip_args: null
+  wheels: null
+conda:
+  environment_yml: null
+  channels: null
+  dependencies: null
+  pip: null
