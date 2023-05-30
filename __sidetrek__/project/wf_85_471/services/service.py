@@ -2,20 +2,9 @@
 import numpy as np
 import bentoml
 from bentoml.io import NumpyNdarray
-
-
-
-model_runner = bentoml.sklearn.get("hr_model3:latest").to_runner()
-svc = bentoml.Service("hr_model3", runners=[model_runner])
-
+from project.wf_85_471.main import encoder, cols, X_cols
 
 def preprocess_test_data(test_data: np.ndarray) -> np.ndarray:
-
-    bento_model: bentoml.Model = bentoml.models.get("hr_model3:latest")
-    encoder = bento_model.custom_objects.get("encoder")
-    cols = bento_model.custom_objects.get("cols")
-    X_cols = bento_model.custom_objects.get("X_cols")
-
     df = pd.DataFrame(test_data, columns=cols[:-1])
     df.drop(["employee_id"], axis=1, inplace=True)
     cat_cols = [x for x in df.columns if df[x].dtypes=="O"]
@@ -27,6 +16,9 @@ def preprocess_test_data(test_data: np.ndarray) -> np.ndarray:
     df1 = pd.DataFrame(0, index=[0], columns=X_cols)
     df1.update(df)
     return df1.values
+
+model_runner = bentoml.sklearn.get("hr_model2:latest").to_runner()
+svc = bentoml.Service("hr_model2", runners=[model_runner])
 
 @svc.api(input=NumpyNdarray(), output=NumpyNdarray())
 def classify(input_series: np.ndarray) -> np.ndarray:
