@@ -4,3 +4,4 @@ dataclasses_json
 scikit-learn
 joblib
 sidetrek==0.0.92
+bentoml

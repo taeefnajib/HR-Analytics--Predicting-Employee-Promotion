@@ -1,6 +1,6 @@
 import joblib
 import bentoml
-from main import encoder, cols, X_cols
+from src.main import encoder, cols, X_cols
 
 
 with open("/userRepoData/taeefnajib/HR-Analytics--Predicting-Employee-Promotion/__sidetrek__/models/f395d4113c6342f2d2cc4f832eb8e18a.joblib", "rb") as f:
