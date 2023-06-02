@@ -8,7 +8,7 @@ from dataclasses_json import dataclass_json
 from dataclasses import dataclass
 from sidetrek.types.dataset import SidetrekDataset
 from sidetrek.dataset import load_dataset
-from typing import Tuple
+from typing import Tuple, Callable
 
 @dataclass_json
 @dataclass
@@ -22,6 +22,11 @@ class Hyperparameters(object):
     max_depth: int = 5
 
 hp = Hyperparameters()
+
+
+# Holder for transforms to pass to save_model
+transforms = {}
+
 
 # Creating the dataframe
 def create_df(ds: SidetrekDataset) -> pd.DataFrame:
@@ -61,10 +66,11 @@ def handle_cat_cols(df: pd.DataFrame) -> pd.DataFrame:
     # Select the categorical columns to be one-hot encoded
     cat_df = df_copy[cat_cols]
     # Initialize the OneHotEncoder
-    global encoder
     encoder = OneHotEncoder(sparse=False)
     # Fit and transform the categorical columns
     encoded_data = encoder.fit_transform(cat_df)
+    # Save the encoder for use in inference
+    transforms["one_hot_encoder"] = encoder
     # Create a dataframe with the encoded data
     one_hot_df = pd.DataFrame(encoded_data, columns=encoder.get_feature_names_out(cat_cols))
     # Drop the categorical columns from the original dataframe
@@ -78,8 +84,8 @@ def handle_cat_cols(df: pd.DataFrame) -> pd.DataFrame:
 def split_train_test(df: pd.DataFrame, hp: Hyperparameters) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
     X = df.drop(["is_promoted"], axis=1)
     y = df["is_promoted"]
-    global X_cols
     X_cols = X.columns
+    transforms["X_cols"] = X_cols
     return train_test_split(X, y, test_size=hp.test_size, random_state=hp.random_state)
 
 
